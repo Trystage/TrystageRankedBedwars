@@ -1,4 +1,4 @@
-from config import GROUP_IDS, ADMINS
+from config import CONFIG
 from utils.file_utils import FileUtils
 from utils.permission_utils import require_admin
 from utils.websocket_utils import send_message
@@ -56,9 +56,9 @@ async def handle_add_command(message_text, user_id, group_id, websocket):
     
     # 显示当前所有群组ID
     if command_type == "admin":
-        current_groups = ADMINS
+        current_groups = CONFIG.ADMINS
     else:
-        current_groups = GROUP_IDS
+        current_groups = CONFIG.GROUP_IDS
     
     response_message += f"\n当前{command_type}列表：{', '.join(map(str, current_groups))}"
     
