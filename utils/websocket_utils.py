@@ -188,4 +188,4 @@ async def get_group_member_info(websocket, group_id: int, user_id: int, no_cache
 
     except Exception as e:
         print(f"获取群成员信息失败: {e}")
-        return None
+        return {}

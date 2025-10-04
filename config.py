@@ -29,9 +29,20 @@ LOGS_DIR = "logs"
 def get_rbw_group_ids():
     from utils.file_utils import FileUtils
     return FileUtils.get_rbw_group_ids()
+    
 def get_admins():
     from utils.file_utils import FileUtils
     return FileUtils.get_admins()
 
-ADMINS = get_admins()
-GROUP_IDS = get_rbw_group_ids()
+# 将ADMINS和GROUP_IDS改为属性，延迟加载
+class _LazyConfig:
+    @property
+    def ADMINS(self):
+        return get_admins()
+        
+    @property
+    def GROUP_IDS(self):
+        return get_rbw_group_ids()
+
+# 创建配置实例
+CONFIG = _LazyConfig()

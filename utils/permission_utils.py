@@ -1,7 +1,7 @@
 import json
 from functools import wraps
 
-from config import ADMIN_GROUP_ID, TEST_GROUP_ID, ADMINS
+from config import ADMIN_GROUP_ID, TEST_GROUP_ID, CONFIG
 from utils.websocket_utils import send_message
 
 
@@ -11,7 +11,7 @@ def require_admin(func):
     @wraps(func)
     async def wrapper(message_text: str, group_id: str, user_id: str, websocket):
 
-        if not ((group_id == ADMIN_GROUP_ID) or (group_id == TEST_GROUP_ID) or user_id in ADMINS):
+        if not ((group_id == ADMIN_GROUP_ID) or (group_id == TEST_GROUP_ID) or user_id in CONFIG.ADMINS):
             # 权限不足的处理
             response_msg = "权限不足：只有群管理员或群主才能使用此命令"
             await send_message(websocket, response_msg)
@@ -28,6 +28,6 @@ def is_admin(group_id: str, user_id: str):
     :param user_id:
     :return:
     """
-    if not ((group_id == ADMIN_GROUP_ID) or (group_id == TEST_GROUP_ID) or user_id in ADMINS):
+    if not ((group_id == ADMIN_GROUP_ID) or (group_id == TEST_GROUP_ID) or user_id in CONFIG.ADMINS):
         return False
     return True
