@@ -5,10 +5,12 @@ import websockets
 
 from commands.base_commands import is_announce_command, is_feedback_command, is_mute_command, is_report_command, \
     is_help_command
+from config import WEBSOCKET_HOST, WEBSOCKET_PORT
 from handlers.announcement_handler import handle_announce_command
 from handlers.feedback_handler import handle_feedback_command
 from handlers.help_handler import handle_help_command
 from handlers.report_handler import handle_report_command
+from utils.file_utils import FileUtils
 from utils.websocket_utils import send_message
 
 
@@ -63,7 +65,15 @@ async def on_connect(websocket, path):
 
 
 # 启动服务器
-start_server = websockets.serve(on_connect, "0.0.0.0", 12001)
-print("WebSocket 服务器已启动")
-asyncio.get_event_loop().run_until_complete(start_server)
-asyncio.get_event_loop().run_forever()
+async def main():
+    # 初始化数据文件
+    FileUtils.initialize_data_files()
+
+    start_server = await websockets.serve(on_connect, WEBSOCKET_HOST, WEBSOCKET_PORT)
+    print("WebSocket 服务器已启动")
+    print(f"运行在ws://{WEBSOCKET_HOST}:{WEBSOCKET_PORT}/ws")
+    await start_server.wait_closed()
+
+
+if __name__ == "__main__":
+    asyncio.run(main())
