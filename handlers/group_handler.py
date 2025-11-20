@@ -21,7 +21,7 @@ async def handle_add_command(message_text, user_id, group_id, websocket):
     
     # 检查命令类型是否有效
     if command_type not in ["admin", "rbw"]:
-        await send_message(websocket, "错误：命令类型不正确，只能是 yinpa 或 join", user_id, group_id)
+        await send_message(websocket, "错误：命令类型不正确，只能是 admin 或 rbw", user_id, group_id)
         return
     
     # 获取要添加的群组ID列表
