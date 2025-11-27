@@ -6,14 +6,14 @@ from utils.websocket_utils import send_message
 
 
 def require_admin(func):
-    """装饰器：要求用户必须是群管理员或群主"""
+    """装饰器：要求必须是主人"""
 
     @wraps(func)
     async def wrapper(message_text: str, group_id: str, user_id: str, websocket):
 
         if not ((group_id == ADMIN_GROUP_ID) or (group_id == TEST_GROUP_ID) or user_id in CONFIG.ADMINS):
             # 权限不足的处理
-            response_msg = "权限不足：只有群管理员或群主才能使用此命令"
+            response_msg = "权限不足：只有喵喵主人才能使用此命令"
             await send_message(websocket, response_msg)
             return None
 
