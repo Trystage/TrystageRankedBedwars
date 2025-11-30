@@ -1,10 +1,9 @@
 import json
 import os
 from typing import List, Dict, Any
-from config import PROJECT_ROOT
+from config import DATA_DIR
 
 # 定义数据文件路径
-DATA_DIR = PROJECT_ROOT / "data"
 GROUPS_FILE = DATA_DIR / "groups.json"
 PLAYERS_FILE = DATA_DIR / "players.json"
 

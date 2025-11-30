@@ -13,16 +13,19 @@ TEST_GROUP_ID = 695789887
 
 PROJECT_ROOT = Path(__file__).parent
 
+# 数据目录
+DATA_DIR = PROJECT_ROOT / "data"
 # 资源目录
-RESOURCE_DIR = "resource"
+RESOURCE_DIR = str(PROJECT_ROOT / "resource")
 
 # 资源文件路径
-FONT_FILE = "1.ttf"
+FONT_FILE = str(PROJECT_ROOT / "resource" / "SourceHanSansSC-VF.ttf")
+
 # 缓存目录
-CACHE_DIR = "cache"
+CACHE_DIR = str(PROJECT_ROOT / "cache")
 
 # 日志目录
-LOGS_DIR = "logs"
+LOGS_DIR = str(PROJECT_ROOT / "logs")
 
 
 # 延迟加载群组ID配置，避免循环导入
