@@ -19,6 +19,7 @@ async def handle_help_command(message_text, user_id, group_id, websocket):
 =announce <公告内容> - 发送公告到指定群组
 =mute <QQ号> <时长(秒)> <原因> - 对指定用户进行禁言操作
 =add (admin/rbw) [1] [2] ... - 添加Admin或启用rbw群
+=modify <stat> <QQ> <数值> - 修改玩家战绩 (stat: wins, losses, elo)
 
 注意：您当前在管理员或测试群组中，可以使用所有命令。"""
     else:

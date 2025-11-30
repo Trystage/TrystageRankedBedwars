@@ -4,12 +4,13 @@ import json
 import websockets
 
 from commands.base_commands import is_announce_command, is_feedback_command, is_mute_command, is_report_command, \
-    is_help_command
+    is_help_command, is_modify_command
 from config import WEBSOCKET_HOST, WEBSOCKET_PORT
 from handlers.announcement_handler import handle_announce_command
 from handlers.feedback_handler import handle_feedback_command
 from handlers.help_handler import handle_help_command
 from handlers.report_handler import handle_report_command
+from handlers.data_handler import handle_modify_command
 from utils.file_utils import FileUtils
 from utils.websocket_utils import send_message
 
@@ -43,6 +44,10 @@ async def handle_message(websocket):
                 # 处理帮助命令
                 elif is_help_command(message_text):
                     response_message = await handle_help_command(message_text, user_id, group_id, websocket)
+
+                # 处理修改玩家数据命令
+                elif is_modify_command(message_text):
+                    await handle_modify_command(websocket, message_text, group_id, user_id)
 
                 # 发送响应消息（如果有的话）
                 if response_message:

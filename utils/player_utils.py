@@ -22,13 +22,12 @@ class PlayerUtils:
                 "ign": "",
                 "uuid": ""
             },
-            "elo": 0,
+            "elo": 1000,
             "strikes": 0,
             "games": 0,
             "wins": 0,
             "losses": 0,
             "mvps": 0,
-            "xp": 0,
             "registeredAt": datetime.now().isoformat()
         }
         FileUtils.save_player_data(qq, player_data)
@@ -359,40 +358,3 @@ class PlayerUtils:
         """
         current_mvps = PlayerUtils.get_mvps(qq)
         PlayerUtils.set_mvps(qq, current_mvps + count)
-
-    @staticmethod
-    def set_xp(qq: str, xp: int) -> None:
-        """
-        设置玩家经验值
-        
-        Args:
-            qq (str): 玩家QQ号（作为玩家ID）
-            xp (int): 经验值
-        """
-        FileUtils.update_player_stats(qq, xp=xp)
-
-    @staticmethod
-    def get_xp(qq: str) -> int:
-        """
-        获取玩家经验值
-        
-        Args:
-            qq (str): 玩家QQ号（作为玩家ID）
-            
-        Returns:
-            int: 玩家经验值
-        """
-        player_data = FileUtils.get_player_data(qq)
-        return player_data.get("xp", 0)
-
-    @staticmethod
-    def add_xp(qq: str, xp: int) -> None:
-        """
-        增加玩家经验值
-        
-        Args:
-            qq (str): 玩家QQ号（作为玩家ID）
-            xp (int): 要增加的经验值
-        """
-        current_xp = PlayerUtils.get_xp(qq)
-        PlayerUtils.set_xp(qq, current_xp + xp)

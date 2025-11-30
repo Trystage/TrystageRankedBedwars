@@ -24,3 +24,8 @@ def is_report_command(message_text):
 def is_help_command(message_text):
     """检查是否为帮助命令"""
     return message_text == "=?" or message_text.startswith("=help")
+
+
+def is_modify_command(message_text):
+    """检查是否为修改玩家数据命令"""
+    return message_text.startswith("=modify")

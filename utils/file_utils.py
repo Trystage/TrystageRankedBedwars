@@ -131,8 +131,7 @@ class FileUtils:
             "elo": 1000,
             "wins": 0,
             "losses": 0,
-            "mvps": 0,
-            "xp": 0
+            "mvps": 0
         })
 
     @staticmethod
@@ -144,7 +143,7 @@ class FileUtils:
 
     @staticmethod
     def update_player_stats(player_id: str, nickname: str = "", ign: str = "", elo: int = None, 
-                           wins: int = None, losses: int = None, mvps: int = None, xp: int = None,
+                           wins: int = None, losses: int = None, mvps: int = None,
                            strikes: int = None, games: int = None) -> None:
         """更新玩家统计数据"""
         player_data = FileUtils.get_player_data(player_id)
@@ -162,8 +161,6 @@ class FileUtils:
             player_data["losses"] = losses
         if mvps is not None:
             player_data["mvps"] = mvps
-        if xp is not None:
-            player_data["xp"] = xp
         if strikes is not None:
             player_data["strikes"] = strikes
         if games is not None:
