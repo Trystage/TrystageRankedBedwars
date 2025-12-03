@@ -20,6 +20,7 @@ async def handle_help_command(websocket, message_text, user_id, group_id):
 =mute <QQ号> <时长(秒)> <原因> - 对指定用户进行禁言操作
 =add (admin/rbw) [1] [2] ... - 添加Admin或启用rbw群
 =modify <stat> <QQ> <数值> - 修改玩家战绩 (stat: wins, losses, elo)
+=freg <qq> <ign> <uuid> [nickname] - 强制注册
 
 注意：您当前在管理员或测试群组中，可以使用所有命令。"""
     else:
@@ -28,6 +29,8 @@ async def handle_help_command(websocket, message_text, user_id, group_id):
     
 基础命令：
 =feedback <反馈内容> - 向管理组发送反馈信息 | =ref
-=report <QQ> <原因> | =r"""
+=report <QQ> <原因> 
+=reg | =r - 注册TrystageRankedBedwars
+=i [QQ号/IGN/QQ] | =info - 查询他人信息"""
 
     await send_message(websocket, help_message, user_id, group_id)

@@ -3,6 +3,8 @@ import re
 
 from functools import wraps
 
+from utils.player_utils import PlayerUtils
+
 
 async def send_response(websocket, user_id, group_id, message_type, message):
     """发送响应消息"""
@@ -215,3 +217,15 @@ def get_at(message: str):
     # 返回所有匹配到的QQ号
     return matches
 
+def get_player(message_text: str):
+    ats = get_at(message_text)
+    if ats:
+        target = ats[0]
+    else:
+        player = PlayerUtils.get_player(message_text.split(' ')[1])
+        if player is {}:
+            response_msg = f"未找到玩家{message_text.split(' ')[1]}"
+            return response_msg
+        else:
+            target = player.keys()
+    return target
