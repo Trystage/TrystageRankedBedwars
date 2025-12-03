@@ -69,6 +69,7 @@ async def handle_modify_command(websocket, message_text: str, user_id: str = Non
         await send_message(websocket, response_msg, user_id, group_id)
 
 async def handle_info_command(websocket, message_text: str, user_id: str = None, group_id: str = None):
+    target = ""
     if len(message_text.split(' ')) > 1:
         if message_text.split(' ')[1].isdigit():
             target = int(message_text.split(' ')[1])
