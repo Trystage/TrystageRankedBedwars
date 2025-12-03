@@ -35,7 +35,7 @@ class PlayerUtils:
                 "ign": ign,
                 "uuid": formatted_uuid,
             },
-            "elo": 1000,
+            "elo": 0,
             "strikes": 0,
             "games": 0,
             "wins": 0,
