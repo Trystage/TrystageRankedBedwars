@@ -7,7 +7,7 @@ from utils.websocket_utils import send_message
 
 
 @require_admin
-async def handle_modify_command(websocket, message_text: str, group_id: str, user_id: str):
+async def handle_modify_command(message_text: str, group_id: str, user_id: str, websocket):
     """处理修改玩家数据命令
     命令格式: =modify <stat> @user/qq <number>
     允许修改的stat: wins, losses, elo
@@ -68,7 +68,7 @@ async def handle_modify_command(websocket, message_text: str, group_id: str, use
         response_msg = f"更新玩家数据时出错: {str(e)}"
         await send_message(websocket, response_msg, user_id, group_id)
 
-async def handle_info_command(websocket, message_text: str, user_id: str, group_id: str):
+async def handle_info_command(message_text: str, user_id: str, group_id: str, websocket):
     if len(message_text.split(' ')) > 1:
         target = int(message_text.split(' ')[1])
     else:
@@ -80,13 +80,13 @@ async def handle_info_command(websocket, message_text: str, user_id: str, group_
         response_msg = f"查询战绩时出错: {str(e)}"
         await send_message(websocket, response_msg, user_id, group_id)
 
-async def handle_reg_command(websocket, message_text: str, user_id: str, group_id: str):
+async def handle_reg_command(message_text: str, user_id: str, group_id: str, websocket):
     response_msg = f"注册功能需与服务器一起使用,服务器已停机,请找管理员强制注册"
     await send_message(websocket, response_msg, user_id, group_id)
     return
 
 @require_admin
-async def handle_freg_command(websocket, message_text: str, user_id: str, group_id: str):
+async def handle_freg_command(message_text: str, user_id: str, group_id: str, websocket):
     """处理强制注册玩家命令
     命令格式: =freg <qq> <ign> <uuid> [nickname]
     """
