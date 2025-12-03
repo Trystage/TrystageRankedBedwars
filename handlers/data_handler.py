@@ -1,4 +1,6 @@
 import re
+
+from utils.image_utils import ImageUtils
 from utils.permission_utils import require_admin
 from utils.player_utils import PlayerUtils
 from utils.websocket_utils import send_message
@@ -65,3 +67,65 @@ async def handle_modify_command(websocket, message_text: str, group_id: str, use
     except Exception as e:
         response_msg = f"更新玩家数据时出错: {str(e)}"
         await send_message(websocket, response_msg, user_id, group_id)
+
+async def handle_info_command(websocket, message_text: str, user_id: str, group_id: str):
+    if len(message_text.split(' ')) > 1:
+        target = int(message_text.split(' ')[1])
+    else:
+        target = user_id
+    try:
+        response = ImageUtils.generate_stat(target)
+        await send_message(websocket, response, user_id, group_id)
+    except Exception as e:
+        response_msg = f"查询战绩时出错: {str(e)}"
+        await send_message(websocket, response_msg, user_id, group_id)
+
+async def handle_reg_command(websocket, message_text: str, user_id: str, group_id: str):
+    response_msg = f"注册功能需与服务器一起使用,服务器已停机,请找管理员强制注册"
+    await send_message(websocket, response_msg, user_id, group_id)
+    return
+
+@require_admin
+async def handle_freg_command(websocket, message_text: str, user_id: str, group_id: str):
+    """处理强制注册玩家命令
+    命令格式: =freg <qq> <ign> <uuid> [nickname]
+    """
+    # 解析命令参数
+    command_parts = message_text.split()
+    
+    # 检查参数数量
+    if len(command_parts) < 4:
+        response_msg = "命令格式错误！正确格式: =freg <qq> <ign> <uuid> [nickname]"
+        await send_message(websocket, response_msg, user_id, group_id)
+        return
+    
+    # 提取参数
+    qq = command_parts[1]
+    ign = command_parts[2]
+    uuid = command_parts[3]
+    nickname = command_parts[4] if len(command_parts) > 4 else ""
+    
+    # 简单验证QQ号是否为数字
+    if not qq.isdigit():
+        response_msg = "QQ号必须是数字！"
+        await send_message(websocket, response_msg, user_id, group_id)
+        return
+    
+    # 简单验证UUID格式（基本检查）
+    if len(uuid) != 32 and len(uuid) != 36:
+        response_msg = "UUID格式不正确！"
+        await send_message(websocket, response_msg, user_id, group_id)
+        return
+    
+    try:
+        # 使用add_player_raw方法注册玩家
+        PlayerUtils.add_player_raw(qq, ign, uuid, uuid, nickname)
+        
+        response_msg = f"玩家已成功强制注册:\nQQ: {qq}\nIGN: {ign}\nUUID: {uuid}"
+        if nickname:
+            response_msg += f"\n昵称: {nickname}"
+    except Exception as e:
+        response_msg = f"注册玩家时出错: {str(e)}"
+    
+    await send_message(websocket, response_msg, user_id, group_id)
+    return

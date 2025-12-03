@@ -8,19 +8,25 @@ class PlayerUtils:
     """玩家工具类，用于处理玩家数据的各种操作"""
 
     @staticmethod
-    def add_player(qq: str, nickname: str = "") -> None:
+    def add_player_raw(qq: str, ign: str, uuid: str, skin: str = "", nickname: str = "") -> None:
         """
         添加新玩家并初始化数据结构
         
         Args:
             qq (str): 玩家QQ号（作为玩家ID）
             nickname (str): 玩家昵称
+            ign (str): 游戏内昵称
+            uuid (str): 游戏内UUID
+            skin (str): 皮肤UUID
         """
+        if skin == "":
+            skin = uuid
+
         player_data = {
             "nickname": nickname,
             "minecraft": {
-                "ign": "",
-                "uuid": ""
+                "ign": ign,
+                "uuid": uuid,
             },
             "elo": 1000,
             "strikes": 0,
@@ -28,7 +34,8 @@ class PlayerUtils:
             "wins": 0,
             "losses": 0,
             "mvps": 0,
-            "registeredAt": datetime.now().isoformat()
+            "registeredAt": datetime.now().isoformat(),
+            "skin": skin,
         }
         FileUtils.save_player_data(qq, player_data)
 

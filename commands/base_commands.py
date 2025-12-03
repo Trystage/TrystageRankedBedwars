@@ -29,3 +29,15 @@ def is_help_command(message_text):
 def is_modify_command(message_text):
     """检查是否为修改玩家数据命令"""
     return message_text.startswith("=modify")
+
+def is_info_command(message_text):
+    """检查是否为战绩查询指令"""
+    return message_text.startswith("=info") or message_text.startswith("=i")
+
+def is_reg_command(message_text):
+    """检查是否为注册指令"""
+    return message_text.startswith("=reg") or message_text.startswith("=r") or message_text.startswith("=register")
+
+def is_freg_command(message_text):
+    """检查是否为注册指令"""
+    return message_text.startswith("=freg") or message_text.startswith("=fr")
