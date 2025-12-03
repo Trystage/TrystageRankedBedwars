@@ -376,7 +376,7 @@ class PlayerUtils:
         PlayerUtils.set_mvps(qq, current_mvps + count)
 
     @staticmethod
-    def get_player(ign: str) -> Dict[str, Any]:
+    def get_full_player(ign: str) -> Dict[str, Any]:
         """
         通过游戏内名称(IGN)获取玩家数据
         
@@ -384,7 +384,8 @@ class PlayerUtils:
             ign (str): 游戏内名称
             
         Returns:
-            Dict[str, Any]: 玩家数据，如果未找到则返回空字典
+            Dict[str, Any]: 包含玩家QQ号和数据的字典，格式为 {"qq": qq_number, "data": player_data}
+                          如果未找到则返回空字典
         """
         # 获取所有玩家数据
         players_data = FileUtils.load_players_data()
@@ -392,7 +393,30 @@ class PlayerUtils:
         # 遍历所有玩家查找匹配的IGN
         for player_id, player_data in players_data.items():
             if player_data.get("minecraft", {}).get("ign", "").lower() == ign.lower():
-                return player_data
+                return {"qq": player_id, "data": player_data}
                 
+        # 如果未找到匹配的玩家，返回空字典
+        return {}
+
+    @staticmethod
+    def get_player(ign: str) -> Dict[str, Any]:
+        """
+        通过游戏内名称(IGN)获取玩家数据
+
+        Args:
+            ign (str): 游戏内名称
+
+        Returns:
+            Dict[str, Any]: 包含玩家QQ号和数据的字典，格式为 {"qq": qq_number, "data": player_data}
+                          如果未找到则返回空字典
+        """
+        # 获取所有玩家数据
+        players_data = FileUtils.load_players_data()
+
+        # 遍历所有玩家查找匹配的IGN
+        for player_id, player_data in players_data.items():
+            if player_data.get("minecraft", {}).get("ign", "").lower() == ign.lower():
+                return player_data
+
         # 如果未找到匹配的玩家，返回空字典
         return {}
