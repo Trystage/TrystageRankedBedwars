@@ -5,7 +5,7 @@ from utils.websocket_utils import send_message
 
 
 @require_admin
-async def handle_add_command(message_text, user_id, group_id, websocket):
+async def handle_add_command(websocket, message_text, user_id, group_id):
     """处理添加群组ID命令"""
     
     # 解析命令参数

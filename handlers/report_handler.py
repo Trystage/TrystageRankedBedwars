@@ -18,7 +18,7 @@ def log_report_record(user_id, reason, operator):
     return record
 
 
-async def handle_report_command(message_text, user_id, group_id, websocket):
+async def handle_report_command(websocket, message_text, user_id, group_id):
     """处理举报命令"""
     parts = message_text.split()
     if len(parts) >= 3:

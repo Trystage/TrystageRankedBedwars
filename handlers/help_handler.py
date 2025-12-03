@@ -3,7 +3,7 @@ from utils.permission_utils import is_admin
 from utils.websocket_utils import send_message
 
 
-async def handle_help_command(message_text, user_id, group_id, websocket):
+async def handle_help_command(websocket, message_text, user_id, group_id):
     """处理帮助命令"""
     
     # 构造帮助信息

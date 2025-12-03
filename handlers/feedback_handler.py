@@ -17,7 +17,7 @@ def log_feedback_record(user_id, group_id, message):
     return record
 
 
-async def handle_feedback_command(message_text, user_id, group_id, websocket):
+async def handle_feedback_command(websocket, message_text, user_id, group_id):
     """处理反馈命令"""
     parts = message_text.split()
     if len(parts) >= 3:

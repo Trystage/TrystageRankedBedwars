@@ -33,35 +33,35 @@ async def handle_message(websocket):
 
                 # 处理公告命令
                 if is_announce_command(message_text):
-                    await handle_announce_command(message_text, group_id, websocket)
+                    await handle_announce_command(websocket, message_text, group_id)
 
                 # 处理反馈命令
                 elif is_feedback_command(message_text):
-                    await handle_feedback_command(message_text, user_id, group_id, websocket)
+                    await handle_feedback_command(websocket, message_text, user_id, group_id)
 
                 # 处理举报命令
                 elif is_report_command(message_text):
-                    await handle_report_command(message_text, user_id, group_id, websocket)
+                    await handle_report_command(websocket, message_text, user_id, group_id)
 
                 # 处理帮助命令
                 elif is_help_command(message_text):
-                    response_message = await handle_help_command(message_text, user_id, group_id, websocket)
+                    response_message = await handle_help_command(websocket, message_text, user_id, group_id)
 
                 # 处理查询命令
                 elif is_info_command(message_text):
-                    response_message = await handle_info_command(message_text, user_id, group_id, websocket)
+                    response_message = await handle_info_command(websocket, message_text, user_id, group_id)
 
                 # 处理修改玩家数据命令
                 elif is_modify_command(message_text):
-                    await handle_modify_command(message_text, group_id, user_id, websocket)
+                    await handle_modify_command(websocket, message_text, user_id, group_id)
 
                 # 处理强制注册命令
                 elif is_freg_command(message_text):
-                    await handle_freg_command(message_text, user_id, group_id, websocket)
+                    await handle_freg_command(websocket, message_text, user_id, group_id)
 
                 # 处理注册命令
                 elif is_reg_command(message_text):
-                    await handle_reg_command(message_text, user_id, group_id, websocket)
+                    await handle_reg_command(websocket, message_text, user_id, group_id)
 
                 # 发送响应消息（如果有的话）
                 if response_message:
