@@ -1,5 +1,6 @@
 import asyncio
 import json
+import traceback
 
 import websockets
 
@@ -12,6 +13,7 @@ from handlers.help_handler import handle_help_command
 from handlers.report_handler import handle_report_command
 from handlers.data_handler import handle_modify_command, handle_info_command, handle_freg_command
 from utils.file_utils import FileUtils
+from utils.misc_utils import truncate_error_message
 from utils.websocket_utils import send_message
 
 
@@ -63,8 +65,14 @@ async def handle_message(websocket):
                     await websocket.send(response_json)
 
         except Exception as e:
-            print(f"处理消息时出错: {e}")
-            await send_message(websocket, f"处理消息时出错: {e}", user_id, group_id)
+            error_msg = truncate_error_message(str(e))
+            print(f"处理消息时出错: {error_msg}")
+            traceback.print_exc()
+            # 如果是消息类型，发送错误响应
+            if "post_type" in data and data["post_type"] == "message":
+                user_id = data.get("user_id")
+                group_id = data.get("group_id", None)
+                await send_message(websocket, f"处理消息时出错: {e}", user_id, group_id)
 
 
 async def on_connect(websocket, path):
