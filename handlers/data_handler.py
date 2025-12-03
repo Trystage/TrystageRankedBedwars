@@ -3,7 +3,7 @@ import re
 from utils.image_utils import ImageUtils
 from utils.permission_utils import require_admin
 from utils.player_utils import PlayerUtils
-from utils.websocket_utils import send_message
+from utils.websocket_utils import send_message, get_image
 
 
 @require_admin
@@ -74,7 +74,7 @@ async def handle_info_command(websocket, message_text: str, user_id: str = None,
     else:
         target = user_id
     try:
-        response = ImageUtils.generate_stat(target)
+        response = get_image(ImageUtils.generate_stat(target))
         await send_message(websocket, response, user_id, group_id)
     except Exception as e:
         response_msg = f"查询战绩时出错: {str(e)}"
