@@ -9,7 +9,7 @@ def require_admin(func):
     """装饰器：要求必须是主人"""
 
     @wraps(func)
-    async def wrapper(message_text: str, group_id: str, user_id: str, websocket):
+    async def wrapper(websocket, message_text: str, user_id: str, group_id: str):
 
         if not ((group_id == ADMIN_GROUP_ID) or (group_id == TEST_GROUP_ID) or user_id in CONFIG.ADMINS):
             # 权限不足的处理
@@ -18,7 +18,7 @@ def require_admin(func):
             return None
 
         # 有权限，执行原函数
-        return await func(websocket, message_text, group_id, user_id)
+        return await func(websocket, message_text, user_id, group_id)
 
     return wrapper
 def is_admin(group_id: str, user_id: str):

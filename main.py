@@ -33,7 +33,7 @@ async def handle_message(websocket):
 
                 # 处理公告命令
                 if is_announce_command(message_text):
-                    await handle_announce_command(websocket, message_text, group_id)
+                    await handle_announce_command(websocket, message_text, user_id, group_id)
 
                 # 处理反馈命令
                 elif is_feedback_command(message_text):

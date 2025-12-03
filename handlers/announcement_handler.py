@@ -3,7 +3,7 @@ from utils.websocket_utils import send_message
 from config import TARGET_GROUP_ID, ADMIN_GROUP_ID, TEST_GROUP_ID
 
 @require_admin
-async def handle_announce_command(websocket, message_text, group_id):
+async def handle_announce_command(websocket, message_text, user_id, group_id):
     """处理公告命令"""
     # 解析命令参数
     parts = message_text.split()
