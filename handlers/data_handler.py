@@ -74,11 +74,12 @@ async def handle_info_command(websocket, message_text: str, user_id: str = None,
         if message_text.split(' ')[1].isdigit():
             target = int(message_text.split(' ')[1])
         else:
-            player = get_message_player(message_text)
+            player = get_message_player(message_text.split(' ')[1])
             if player.isdigit():
                 target = int(player)
             else:
                 await send_message(websocket, player, user_id, group_id)
+                return
     else:
         target = user_id
     try:
