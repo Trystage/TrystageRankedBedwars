@@ -1,4 +1,5 @@
 # 项目配置文件
+import os
 from pathlib import Path
 
 # WebSocket服务器配置
@@ -19,14 +20,19 @@ DATA_DIR = PROJECT_ROOT / "data"
 RESOURCE_DIR = str(PROJECT_ROOT / "resource")
 
 # 资源文件路径
-FONT_FILE = str(PROJECT_ROOT / "resource" / "SourceHanSansSC-VF.ttf")
+FONT_FILE = str(PROJECT_ROOT / "resource" / "1.ttf")
 
 # 缓存目录
 CACHE_DIR = str(PROJECT_ROOT / "cache")
 
+if not os.path.exists(CACHE_DIR):
+    os.makedirs(CACHE_DIR)
+
 # 日志目录
 LOGS_DIR = str(PROJECT_ROOT / "logs")
 
+if not os.path.exists(LOGS_DIR):
+    os.makedirs(LOGS_DIR)
 
 # 延迟加载群组ID配置，避免循环导入
 def get_rbw_group_ids():

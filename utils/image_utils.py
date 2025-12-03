@@ -60,6 +60,7 @@ class ImageUtils:
         wins = player_data.get("wins", 0)
         losses = player_data.get("losses", 0)
         ign = player_data.get("minecraft", {}).get("ign", "Unknown")
+        elo = player_data.get("elo", 1000)
         
         # 计算WLR（胜率），保留两位小数
         if losses == 0:
@@ -86,12 +87,12 @@ class ImageUtils:
         skin_image = None
         if uuid:
             try:
-                skin_url = f"https://api.mineatar.io/body/full/{uuid}"
+                skin_url = f"https://api.mineatar.io/body/full/{uuid}?scale=8"
                 response = requests.get(skin_url, timeout=5)
                 if response.status_code == 200:
-                    skin_image = Image.open(BytesIO(response.content))
+                    skin_image = Image.open(BytesIO(response.content)).convert("RGBA")
                     # 调整皮肤图片大小
-                    skin_image = skin_image.resize((100, 200), Image.Resampling.LANCZOS)
+                    skin_image = skin_image.resize((160, 360), Image.Resampling.LANCZOS)
             except Exception as e:
                 print(f"获取皮肤图片失败: {e}")
         
@@ -99,29 +100,89 @@ class ImageUtils:
         draw = ImageDraw.Draw(base_image)
         
         # 加载字体
+        font_large = ImageFont.truetype(FONT_FILE, 50)
+        font_medium = ImageFont.truetype(FONT_FILE, 44)
+        font_small = ImageFont.truetype(FONT_FILE, 32)
+        
+        # 绘制玩家IGN（居中显示）
+        # 获取文本边界框以计算居中位置
+        bbox = draw.textbbox((0, 0), f"{ign}", font=font_medium)
+        text_width = bbox[2] - bbox[0]
+        # 居中计算：(图片宽度 - 文本宽度) / 2
+        center_x = int(280 - (text_width // 2))
+        draw.text((center_x, 130), f"{ign}", font=font_medium, fill=(255, 255, 255))
+        
+        # 根据玩家ELO获取段位并加载对应图标
+        from utils.elo_utils import EloUtils
+        division = EloUtils.to_division(elo)
+        division_icon_path = EloUtils.get_division_icon(division)
+        
+        # 加载并绘制段位图标
         try:
-            font_large = ImageFont.truetype(FONT_FILE, 36)
-            font_medium = ImageFont.truetype(FONT_FILE, 24)
-            font_small = ImageFont.truetype(FONT_FILE, 18)
-        except Exception:
-            # 如果无法加载自定义字体，则使用默认字体
-            font_large = ImageFont.load_default()
-            font_medium = ImageFont.load_default()
-            font_small = ImageFont.load_default()
+            division_icon = Image.open(division_icon_path).convert("RGBA")
+            # 调整图标大小
+            division_icon = division_icon.resize((160, 160), Image.Resampling.LANCZOS)
+            # 将图标粘贴到图片上（放在IGN下方）
+            icon_x, icon_y = 640, 130
+            base_image.paste(division_icon, (icon_x, icon_y), division_icon)
+            
+            # 在段位图标上方绘制段位名称（居中）
+            division_bbox = draw.textbbox((0, 0), division, font=font_medium)
+            division_width = division_bbox[2] - division_bbox[0]
+            division_x = icon_x + (160 - division_width) // 2  # 图标中心对齐
+            division_y = icon_y - 30  # 图标上方30像素
+            draw.text((division_x, division_y), division, font=font_medium, fill=(255, 255, 255))
+            
+            # 在段位图标右侧绘制ELO和具体数值（都居中）
+            # ELO文字
+            elo_label_bbox = draw.textbbox((0, 0), "ELO", font=font_medium)
+            elo_label_width = elo_label_bbox[2] - elo_label_bbox[0]
+            elo_label_x = icon_x + 180 + 80 - (elo_label_width // 2)
+            elo_label_y = icon_y - 20  # 图标上方部分
+            draw.text((elo_label_x, elo_label_y), "ELO", font=font_medium, fill=(255, 255, 255))
+            
+            # ELO数值
+            elo_value_bbox = draw.textbbox((0, 0), str(elo), font=font_medium)
+            elo_value_width = elo_value_bbox[2] - elo_value_bbox[0]
+            elo_value_x = icon_x + 180 + 80 - (elo_value_width // 2)
+            elo_value_y = icon_y + 60  # 图标下方部分
+            draw.text((elo_value_x, elo_value_y), str(elo), font=font_medium, fill=(255, 255, 255))
+        except Exception as e:
+            print(f"加载段位图标失败: {e}")
         
-        # 绘制玩家IGN
-        draw.text((50, 30), f"Player: {ign}", font=font_large, fill=(255, 255, 255))
+        # 绘制统计数据（左对齐和右对齐）
+        # 定义统计数据区域
+        stats_area_x_start = 625
+        stats_area_x_end = 975
+        stats_area_y_start = 410
+        stats_area_y_end = 640
         
-        # 绘制统计数据
-        draw.text((50, 100), f"MVPs: {mvp_count}", font=font_medium, fill=(255, 255, 255))
-        draw.text((50, 140), f"Wins: {wins}", font=font_medium, fill=(255, 255, 255))
-        draw.text((50, 180), f"Losses: {losses}", font=font_medium, fill=(255, 255, 255))
-        draw.text((50, 220), f"W/L Ratio: {wlr}", font=font_medium, fill=(255, 255, 255))
+        # 计算行高和起始Y位置
+        line_height = (stats_area_y_end - stats_area_y_start) / 4
+        start_y = stats_area_y_start
+        
+        # 左对齐的标签
+        labels = ["MVPs:", "Wins:", "Losses:", "W/L Ratio:"]
+        values = [str(mvp_count), str(wins), str(losses), str(wlr)]
+        
+        # 绘制左对齐的标签
+        for i, label in enumerate(labels):
+            y_position = start_y + (i * line_height)
+            draw.text((stats_area_x_start, y_position), label, font=font_small, fill=(255, 255, 255))
+        
+        # 绘制右对齐的数值
+        for i, value in enumerate(values):
+            # 获取文本宽度以计算右对齐位置
+            bbox = draw.textbbox((0, 0), value, font=font_small)
+            text_width = bbox[2] - bbox[0]
+            x_position = stats_area_x_end - text_width
+            y_position = start_y + (i * line_height)
+            draw.text((x_position, y_position), value, font=font_small, fill=(255, 255, 255))
         
         # 如果获取到了皮肤图片，则将其粘贴到图片上
         if skin_image:
             # 将皮肤图片粘贴到右上角位置
-            base_image.paste(skin_image, (base_image.width - 120, 30))
+            base_image.paste(skin_image, (200, 220), skin_image)
         
         # 构建完整文件路径
         filepath = os.path.join(CACHE_DIR, f"stat_{qq}.png")

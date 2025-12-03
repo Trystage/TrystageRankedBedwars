@@ -43,18 +43,18 @@ class EloUtils:
     @staticmethod
     def get_division_icon(division: str) -> str:
         if division == "Coal":
-            return get_image(RESOURCE_DIR + "/divisions/Coal.png")
+            return RESOURCE_DIR + "/divisions/Coal.png"
         elif division == "Iron":
-            return get_image(RESOURCE_DIR + "/divisions/Iron.png")
+            return RESOURCE_DIR + "/divisions/Iron.png"
         elif division == "Gold":
-            return get_image(RESOURCE_DIR + "/divisions/Gold.png")
+            return RESOURCE_DIR + "/divisions/Gold.png"
         elif division == "Platinum":
-            return get_image(RESOURCE_DIR + "/divisions/Platinum.png")
+            return RESOURCE_DIR + "/divisions/Platinum.png"
         elif division == "Emerald":
-            return get_image(RESOURCE_DIR + "/divisions/Emerald.png")
+            return RESOURCE_DIR + "/divisions/Emerald.png"
         elif division == "Diamond":
-            return get_image(RESOURCE_DIR + "/divisions/Diamond.png")
+            return RESOURCE_DIR + "/divisions/Diamond.png"
         elif division == "Obsidian":
-            return get_image(RESOURCE_DIR + "/divisions/Obsidian.png")
+            return RESOURCE_DIR + "/divisions/Obsidian.png"
         else:
-            return get_image(RESOURCE_DIR + "/divisions/Crying_Obsidian.png")
+            return RESOURCE_DIR + "/divisions/Crying_Obsidian.png"
