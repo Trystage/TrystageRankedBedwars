@@ -217,15 +217,23 @@ def get_at(message: str):
     # 返回所有匹配到的QQ号
     return matches
 
-def get_player(message_text: str):
-    ats = get_at(message_text)
+def get_message_player(message_player: str):
+    """
+    从消息文本中提取玩家信息
+    :param message_player: 消息文本
+    :return: 玩家QQ号或错误信息
+    """
+    ats = get_at(message_player)
     if ats:
-        target = ats[0]
+        # 如果有@，返回第一个@的QQ号
+        return ats[0]
     else:
-        player = PlayerUtils.get_player(message_text.split(' ')[1])
-        if player is {}:
-            response_msg = f"未找到玩家{message_text.split(' ')[1]}"
-            return response_msg
+        # 如果没有@，尝试通过IGN查找玩家
+        player_data = PlayerUtils.get_player(message_player)
+        
+        # 检查是否找到了玩家
+        if not player_data or not isinstance(player_data, dict) or 'qq' not in player_data:
+            return f"未找到玩家 {message_player}"
         else:
-            target = player.keys()
-    return target
+            # 返回玩家的QQ号
+            return player_data['qq']

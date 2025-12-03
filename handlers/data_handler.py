@@ -3,7 +3,7 @@ import re
 from utils.image_utils import ImageUtils
 from utils.permission_utils import require_admin
 from utils.player_utils import PlayerUtils
-from utils.websocket_utils import send_message, get_image, get_at, get_player
+from utils.websocket_utils import send_message, get_image, get_at, get_message_player
 
 
 @require_admin
@@ -73,7 +73,7 @@ async def handle_info_command(websocket, message_text: str, user_id: str = None,
         if message_text.split(' ')[1].isdigit():
             target = int(message_text.split(' ')[1])
         else:
-            player = get_player(message_text)
+            player = get_message_player(message_text)
             if player.isdigit():
                 target = int(player)
             else:
