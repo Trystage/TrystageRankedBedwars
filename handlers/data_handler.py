@@ -111,17 +111,20 @@ async def handle_freg_command(websocket, message_text: str, user_id: str = None,
         await send_message(websocket, response_msg, user_id, group_id)
         return
     
-    # 简单验证UUID格式（基本检查）
-    if len(uuid) != 32 and len(uuid) != 36:
-        response_msg = "UUID格式不正确！"
+    # 验证并格式化UUID
+    try:
+        from utils.uuid_utils import UUIDUtils
+        formatted_uuid = UUIDUtils.format_uuid(uuid)
+    except ValueError as e:
+        response_msg = f"UUID格式不正确: {str(e)}"
         await send_message(websocket, response_msg, user_id, group_id)
         return
     
     try:
         # 使用add_player_raw方法注册玩家
-        PlayerUtils.add_player_raw(qq, ign, uuid, uuid, nickname)
+        PlayerUtils.add_player_raw(qq, ign, formatted_uuid, formatted_uuid, nickname)
         
-        response_msg = f"玩家已成功强制注册:\nQQ: {qq}\nIGN: {ign}\nUUID: {uuid}"
+        response_msg = f"玩家已成功强制注册:\nQQ: {qq}\nIGN: {ign}\nUUID: {formatted_uuid}"
         if nickname:
             response_msg += f"\n昵称: {nickname}"
     except Exception as e:

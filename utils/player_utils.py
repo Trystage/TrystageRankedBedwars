@@ -1,6 +1,7 @@
 import json
 from typing import Dict, Any
 from utils.file_utils import FileUtils
+from utils.uuid_utils import UUIDUtils
 from datetime import datetime
 
 
@@ -19,14 +20,20 @@ class PlayerUtils:
             uuid (str): 游戏内UUID
             skin (str): 皮肤UUID
         """
+        # 格式化UUID为带连字符的标准格式
+        formatted_uuid = UUIDUtils.format_uuid(uuid)
+        
         if skin == "":
-            skin = uuid
+            skin = formatted_uuid
+        else:
+            # 也格式化皮肤UUID
+            skin = UUIDUtils.format_uuid(skin)
 
         player_data = {
             "nickname": nickname,
             "minecraft": {
                 "ign": ign,
-                "uuid": uuid,
+                "uuid": formatted_uuid,
             },
             "elo": 1000,
             "strikes": 0,
@@ -313,7 +320,9 @@ class PlayerUtils:
             qq (str): 玩家QQ号（作为玩家ID）
             uuid (str): 玩家UUID
         """
-        PlayerUtils.set_minecraft(qq, "uuid", uuid)
+        # 格式化UUID为带连字符的标准格式
+        formatted_uuid = UUIDUtils.format_uuid(uuid)
+        PlayerUtils.set_minecraft(qq, "uuid", formatted_uuid)
 
     @staticmethod
     def get_uuid(qq: str) -> str:

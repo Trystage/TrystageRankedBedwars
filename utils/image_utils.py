@@ -67,8 +67,16 @@ class ImageUtils:
         else:
             wlr = round(wins / losses, 2)
         
-        # 获取玩家UUID
+        # 获取玩家UUID并确保格式正确
         uuid = player_data.get("minecraft", {}).get("uuid", "")
+        # 如果UUID存在但格式不正确，尝试格式化
+        if uuid:
+            try:
+                from utils.uuid_utils import UUIDUtils
+                uuid = UUIDUtils.format_uuid(uuid)
+            except ValueError:
+                # 如果格式化失败，保持原始值
+                pass
         
         # 加载基础模板图片
         template_path = os.path.join(RESOURCE_DIR, "stat.png")
