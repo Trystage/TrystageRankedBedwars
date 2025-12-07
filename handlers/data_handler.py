@@ -116,12 +116,12 @@ async def handle_freg_command(websocket, message_text: str, user_id: str = None,
     
     # 简单验证QQ号是否为数字
     if not qq.isdigit():
-        qq = get_at(qq)
-        if not qq[0].isdigit():
-            response_msg = "QQ号必须是数字！"
+        at = get_at(message_text)
+        if not at or not at[0].isdigit():
+            response_msg = f"未找到{qq}"
             await send_message(websocket, response_msg, user_id, group_id)
             return
-        qq = qq[0]
+        qq = at[0]
     
     # 验证并格式化UUID
     try:
