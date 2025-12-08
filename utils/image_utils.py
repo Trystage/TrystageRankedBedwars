@@ -56,12 +56,14 @@ class ImageUtils:
         player_data = PlayerUtils.get_player_data(qq_str)
         
         # 提取所需数据
-        mvp_count = player_data.get("mvps", 0)
-        wins = player_data.get("wins", 0)
-        losses = player_data.get("losses", 0)
+        mvp_count = player_data.get("mvps", -1)
+        wins = player_data.get("wins", -1)
+        losses = player_data.get("losses", -1)
         ign = player_data.get("minecraft", {}).get("ign", "Unknown")
-        elo = player_data.get("elo", 1000)
-        
+        elo = player_data.get("elo", -1)
+
+        if mvp_count == -1 or wins == -1 or losses == -1 or ign == "Unknown" or elo == -1:
+            return ImageUtils.text_to_image(f"未找到玩家: {qq},该玩家未注册")
         # 计算WLR（胜率），保留两位小数
         if losses == 0:
             wlr = round(float(wins), 2) if wins > 0 else 0.0

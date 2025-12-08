@@ -78,7 +78,7 @@ async def handle_info_command(websocket, message_text: str, user_id: str = None,
             if player.isdigit():
                 target = int(player)
             else:
-                await send_message(websocket, player, user_id, group_id)
+                await send_message(websocket, f"未找到玩家{player}", user_id, group_id)
                 return
     else:
         target = user_id
