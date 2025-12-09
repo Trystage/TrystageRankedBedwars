@@ -231,7 +231,7 @@ def get_message_player(message_player: str):
         player_info = PlayerUtils.get_player(message_player)
         
         # 检查是否找到了玩家
-        if not player_info or not isinstance(player_info, dict) or 'qq' not in player_info.keys():
+        if not player_info or not isinstance(player_info, dict) or 'qq' not in player_info['qq']:
             return f"未找到玩家 {message_player}"
         else:
             # 返回玩家的QQ号

@@ -43,6 +43,7 @@ class PlayerUtils:
             "mvps": 0,
             "registeredAt": datetime.now().isoformat(),
             "skin": skin,
+            "qq": int(qq),
         }
         FileUtils.save_player_data(qq, player_data)
 
