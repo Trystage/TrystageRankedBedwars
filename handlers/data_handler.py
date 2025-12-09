@@ -28,7 +28,7 @@ async def handle_modify_command(websocket, message_text: str, user_id: str = Non
     
     stat, qq, number_str = match.groups()
     number = int(number_str)
-    
+    qq = extract_qq(qq)
     # 验证stat参数
     allowed_stats = ['wins', 'losses', 'elo']
     if stat not in allowed_stats:
