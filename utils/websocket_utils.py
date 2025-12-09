@@ -163,6 +163,13 @@ def extract_qq(input_data):
             except ValueError:
                 return None
 
+        # 尝试通过数据获取玩家
+        player_info = PlayerUtils.get_player(input_data)
+        # 检查是否找到了玩家
+        if player_info and isinstance(player_info, dict) and 'qq' in player_info['qq']:
+            # 返回玩家的QQ号
+            return player_info['qq']
+
     # 其他情况返回 None
     return None
 
@@ -216,23 +223,3 @@ def get_at(message: str):
 
     # 返回所有匹配到的QQ号
     return matches
-
-def get_message_player(message_player: str):
-    """
-    从消息文本中提取玩家信息
-    :param message_player: 消息文本
-    :return: 玩家QQ号或错误信息
-    """
-    ats = get_at(message_player)
-    if ats:
-        # 如果有@，返回第一个@的QQ号
-        return ats[0]
-    else:
-        player_info = PlayerUtils.get_player(message_player)
-        
-        # 检查是否找到了玩家
-        if not player_info or not isinstance(player_info, dict) or 'qq' not in player_info['qq']:
-            return f"未找到玩家 {message_player}"
-        else:
-            # 返回玩家的QQ号
-            return player_info['qq']
