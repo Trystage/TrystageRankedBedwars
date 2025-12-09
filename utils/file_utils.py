@@ -25,10 +25,6 @@ class FileUtils:
                 "admins": [3289138258, 728722384, 3654280169, 2257104941]
             }
             FileUtils.save_groups_data(default_data)
-            
-        # 如果玩家数据文件不存在，创建空文件
-        if not os.path.exists(PLAYERS_FILE):
-            FileUtils.save_players_data({})
 
         FileUtils.players = FileUtils.load_players_data()
 
@@ -105,7 +101,6 @@ class FileUtils:
     @staticmethod
     def load_players_data() -> Dict[str, Any]:
         """加载玩家数据"""
-        FileUtils.initialize_data_files()
         try:
             with open(PLAYERS_FILE, 'r', encoding='utf-8') as f:
                 return json.load(f)
