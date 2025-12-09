@@ -9,6 +9,7 @@ PLAYERS_FILE = DATA_DIR / "players.json"
 
 
 class FileUtils:
+    players: Dict[str, Any] = []
     """文件工具类，用于处理群组ID等数据的持久化存储"""
 
     @staticmethod
@@ -119,17 +120,18 @@ class FileUtils:
         
         with open(PLAYERS_FILE, 'w', encoding='utf-8') as f:
             json.dump(data, f, ensure_ascii=False, indent=2)
+        FileUtils.player = FileUtils.load_players_data()
 
     @staticmethod
     def get_player_data(player_id: str) -> Dict[str, Any]:
         """获取指定玩家的数据"""
-        players_data = FileUtils.load_players_data()
+        players_data = FileUtils.players
         return players_data.get(player_id)
 
     @staticmethod
     def save_player_data(player_id: str, player_data: Dict[str, Any]) -> None:
         """保存指定玩家的数据"""
-        players_data = FileUtils.load_players_data()
+        players_data = FileUtils.players
         players_data[player_id] = player_data
         FileUtils.save_players_data(players_data)
 

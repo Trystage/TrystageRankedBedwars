@@ -58,7 +58,7 @@ class PlayerUtils:
         Returns:
             Dict[str, Any]: 玩家数据
         """
-        players_data = FileUtils.load_players_data()
+        players_data = FileUtils.players
         return players_data.get(qq, {})
 
     @staticmethod
