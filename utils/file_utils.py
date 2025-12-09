@@ -124,14 +124,7 @@ class FileUtils:
     def get_player_data(player_id: str) -> Dict[str, Any]:
         """获取指定玩家的数据"""
         players_data = FileUtils.load_players_data()
-        return players_data.get(player_id, {
-            "nickname": "",
-            "ign": "",
-            "elo": 1000,
-            "wins": 0,
-            "losses": 0,
-            "mvps": 0
-        })
+        return players_data.get(player_id)
 
     @staticmethod
     def save_player_data(player_id: str, player_data: Dict[str, Any]) -> None:

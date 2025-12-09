@@ -14,7 +14,7 @@ def require_admin(func):
         if not ((group_id == ADMIN_GROUP_ID) or (group_id == TEST_GROUP_ID) or user_id in CONFIG.ADMINS):
             # 权限不足的处理
             response_msg = "权限不足：只有喵喵主人才能使用此命令"
-            await send_message(websocket, response_msg)
+            await send_message(websocket, response_msg, user_id, group_id)
             return None
 
         # 有权限，执行原函数

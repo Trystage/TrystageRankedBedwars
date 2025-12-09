@@ -4,8 +4,7 @@ import traceback
 
 import websockets
 
-from commands.base_commands import is_announce_command, is_feedback_command, is_mute_command, is_report_command, \
-    is_help_command, is_modify_command, is_info_command, is_freg_command, is_reg_command
+from commands.base_commands import *
 from config import WEBSOCKET_HOST, WEBSOCKET_PORT
 from handlers.announcement_handler import handle_announce_command
 from handlers.feedback_handler import handle_feedback_command
