@@ -30,6 +30,8 @@ class FileUtils:
         if not os.path.exists(PLAYERS_FILE):
             FileUtils.save_players_data({})
 
+        FileUtils.players = FileUtils.load_players_data()
+
     @staticmethod
     def load_groups_data() -> Dict[str, Any]:
         """加载群组数据"""
@@ -120,7 +122,7 @@ class FileUtils:
         
         with open(PLAYERS_FILE, 'w', encoding='utf-8') as f:
             json.dump(data, f, ensure_ascii=False, indent=2)
-        FileUtils.player = FileUtils.load_players_data()
+        FileUtils.players = FileUtils.load_players_data()
 
     @staticmethod
     def get_player_data(player_id: str) -> Dict[str, Any]:
