@@ -14,8 +14,8 @@ TEST_GROUP_ID = 695789887
 
 PROJECT_ROOT = Path(__file__).parent
 
-# Avatar生成URL(https://crafatar.com/,http://crafatar.tsmp.top)
-SKIN_URL = "http://trystage:3000/renders/body/{uuid}?scale=8&overlay"
+# Avatar生成URL(https://crafatar.com/,http://crafatar.tsmp.top or any crafatar site)
+SKIN_URL = "http://crafatar.tsmp.top/renders/body/{uuid}?scale=8&overlay"
 # 数据目录
 DATA_DIR = PROJECT_ROOT / "data"
 # 资源目录
