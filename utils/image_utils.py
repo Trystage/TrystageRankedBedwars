@@ -2,7 +2,7 @@ import os
 import requests
 from io import BytesIO
 
-from config import CACHE_DIR, FONT_FILE, RESOURCE_DIR
+from config import CACHE_DIR, FONT_FILE, RESOURCE_DIR, SKIN_URL
 from PIL import Image, ImageDraw, ImageFont
 from utils.player_utils import PlayerUtils
 
@@ -89,7 +89,7 @@ class ImageUtils:
         skin_image = None
         if uuid:
             try:
-                skin_url = f"https://api.mineatar.io/body/full/{uuid}?scale=8"
+                skin_url = SKIN_URL.replace("{uuid}", uuid)
                 response = requests.get(skin_url, timeout=5)
                 if response.status_code == 200:
                     skin_image = Image.open(BytesIO(response.content)).convert("RGBA")
