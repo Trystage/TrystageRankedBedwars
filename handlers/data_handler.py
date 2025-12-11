@@ -19,7 +19,7 @@ async def handle_modify_command(websocket, message_text: str, user_id: str = Non
     
     # 使用正则表达式匹配命令格式
     # 匹配: stat @user/qq number 或 stat qq number
-    match = re.match(r'^(\w+)\s+(?:@(\d+)|(\[CQ:at,qq=(\d+)\]))\s+(-?\d+)$', command_args)
+    match = re.match(r'^(\w+)\s+(?:@|\[CQ:at,qq=)?(\d+)(?:\])?\s+(-?\d+)$', command_args)
     
     if not match:
         response_msg = "命令格式错误！正确格式: =modify <stat> [@]qq <数值>\n允许修改的stat: wins, losses, elo"
