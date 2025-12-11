@@ -14,7 +14,7 @@ TEST_GROUP_ID = 695789887
 
 PROJECT_ROOT = Path(__file__).parent
 
-# Avatar生成URL(https://crafatar.com/,http://crafatar.tsmp.top or any crafatar site)
+# Avatar生成URL(https://mineatar.io/,https://crafatar.com/,http://crafatar.tsmp.top or any crafatar site)
 SKIN_URL = "http://crafatar.tsmp.top/renders/body/{uuid}?scale=8&overlay"
 # 数据目录
 DATA_DIR = PROJECT_ROOT / "data"
