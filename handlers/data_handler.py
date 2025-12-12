@@ -75,11 +75,11 @@ async def handle_info_command(websocket, message_text: str, user_id: str = None,
             target = int(message_text.split(' ')[1])
         else:
             player = extract_qq(message_text.split(' ')[1])
-            if player.isdigit():
-                target = int(player)
-            else:
-                await send_message(websocket, player, user_id, group_id)
+            if player is None:
+                await send_message(websocket, f"未找到玩家 {message_text.split(' ')[1]}", user_id, group_id)
                 return
+            else:
+                target = int(player)
     else:
         target = user_id
     try:
