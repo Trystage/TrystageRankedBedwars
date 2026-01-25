@@ -58,3 +58,14 @@ class EloUtils:
             return RESOURCE_DIR + "/divisions/Obsidian.png"
         else:
             return RESOURCE_DIR + "/divisions/Crying_Obsidian.png"
+
+    @staticmethod
+    def get_max_queue(elo: int) -> str:
+        if 0 <= elo < 300:
+            return "0"
+        elif 300 <= elo < 600:
+            return "300"
+        elif 600 <= elo:
+            return "600"
+        else:
+            return "0"
