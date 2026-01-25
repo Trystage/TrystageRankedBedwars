@@ -9,6 +9,8 @@ from config import WEBSOCKET_HOST, WEBSOCKET_PORT
 from handlers.announcement_handler import handle_announce_command
 from handlers.feedback_handler import handle_feedback_command
 from handlers.help_handler import handle_help_command
+from handlers.queue_hadler import handle_join_command, handle_leave_queue, handle_queue_stats_command, \
+    handle_force_join_command
 from handlers.report_handler import handle_report_command
 from handlers.data_handler import handle_modify_command, handle_info_command, handle_freg_command, handle_reg_command
 from utils.file_utils import FileUtils
@@ -30,9 +32,23 @@ async def handle_message(websocket):
 
                 response_message = None
 
+                # ===管理员指令===
                 # 处理公告命令
                 if is_announce_command(message_text):
                     await handle_announce_command(websocket, message_text, user_id, group_id)
+
+                # 处理修改玩家数据命令
+                elif is_modify_command(message_text):
+                    await handle_modify_command(websocket, message_text, user_id, group_id)
+
+                # 处理强制注册命令
+                elif is_freg_command(message_text):
+                    await handle_freg_command(websocket, message_text, user_id, group_id)
+
+                elif is_force_join_command(message_text):
+                    await handle_force_join_command(websocket, message_text, user_id, group_id)
+
+                # ===玩家指令===
 
                 # 处理反馈命令
                 elif is_feedback_command(message_text):
@@ -50,17 +66,18 @@ async def handle_message(websocket):
                 elif is_info_command(message_text):
                     response_message = await handle_info_command(websocket, message_text, user_id, group_id)
 
-                # 处理修改玩家数据命令
-                elif is_modify_command(message_text):
-                    await handle_modify_command(websocket, message_text, user_id, group_id)
-
-                # 处理强制注册命令
-                elif is_freg_command(message_text):
-                    await handle_freg_command(websocket, message_text, user_id, group_id)
-
                 # 处理注册命令
                 elif is_reg_command(message_text):
                     await handle_reg_command(websocket, message_text, user_id, group_id)
+
+                elif is_join_command(message_text):
+                    await handle_join_command(websocket, message_text, user_id, group_id)
+
+                elif is_leave_command(message_text):
+                    await handle_leave_queue(websocket, message_text, user_id, group_id)
+
+                elif is_queuestats_command(message_text):
+                    await handle_queue_stats_command(websocket, message_text, user_id, group_id)
 
                 # 发送响应消息（如果有的话）
                 if response_message:

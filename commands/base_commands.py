@@ -41,3 +41,19 @@ def is_reg_command(message_text):
 def is_freg_command(message_text):
     """检查是否为注册指令"""
     return message_text.startswith("=freg") or message_text.startswith("=fr")
+
+def is_join_command(message_text):
+    """检查是否为注册指令"""
+    return message_text.startswith("=j") or message_text.startswith("=join")
+
+def is_leave_command(message_text):
+    """检查是否为注册指令"""
+    return message_text.startswith("=leave")
+
+def is_force_join_command(message_text):
+    """检查是否为注册指令"""
+    return message_text.startswith("=forcejoin") or message_text.startswith("=fjoin")
+
+def is_queuestats_command(message_text):
+    """检查是否为注册指令"""
+    return message_text.startswith("=qs") or message_text.startswith("=queuestats")
