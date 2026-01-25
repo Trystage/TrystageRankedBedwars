@@ -154,3 +154,75 @@ def get_queue_status(qq: str = None, queue: str = None) -> str:
 
     # 不应该执行到这里
     return "参数错误"
+
+
+def get_queue_stats(queue: str) -> str:
+    """
+    获取队列统计信息（简洁版）
+
+    Args:
+        queue: 队列类型 "0", "300", "600"
+
+    Returns:
+        简洁的统计信息表格：IGN | wins | looses | MVPs
+    """
+    # 检查队列类型是否有效
+    if queue not in ["0", "300", "600"]:
+        return "无效的queue类型，需要为 0、300 或 600"
+
+    queue_list = None
+
+    # 确定要显示的队列
+    if queue == "0":
+        queue_list = queue0
+        queue_name = "0+"
+    elif queue == "300":
+        queue_list = queue300
+        queue_name = "300+"
+    elif queue == "600":
+        queue_list = queue600
+        queue_name = "600+"
+
+    # 检查队列是否为空
+    if queue_list is None:
+        return f"queue {queue} 为空"
+
+    # 收集玩家统计信息
+    player_stats = []
+
+    for qq in queue_list:
+        player_data = PlayerUtils.get_player_data(qq)
+        if not player_data:
+            ign = "数据缺失"
+            wins = 0
+            losses = 0
+            mvps = 0
+        else:
+            ign = player_data.get("minecraft", {}).get("ign", "Unknown")
+            wins = player_data.get("wins", 0)
+            losses = player_data.get("losses", 0)
+            mvps = player_data.get("mvps", 0)
+
+        player_stats.append((ign, wins, losses, mvps))
+
+    # 计算列宽
+    max_ign_len = max(len(str(stat[0])) for stat in player_stats)
+    max_wins_len = max(len(str(stat[1])) for stat in player_stats)
+    max_losses_len = max(len(str(stat[2])) for stat in player_stats)
+    max_mvps_len = max(len(str(stat[3])) for stat in player_stats)
+
+    # 表头宽度
+    ign_width = max(max_ign_len, 10)
+    wins_width = max(max_wins_len, 4)
+    losses_width = max(max_losses_len, 4)
+    mvps_width = max(max_mvps_len, 4)
+
+    # 构建表格
+    response = f"Queue {queue_name} :\n"
+
+    # 数据行
+    for ign, wins, losses, mvps in player_stats:
+        row = f"{ign:<{ign_width}} | {wins:<{wins_width}} | {losses:<{losses_width}} | {mvps:<{mvps_width}}"
+        response += row + "\n"
+
+    return response
