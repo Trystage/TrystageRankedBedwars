@@ -100,7 +100,7 @@ class PlayerUtils:
             int: 玩家ELO分数
         """
         player_data = FileUtils.get_player_data(qq)
-        return player_data.get("elo", 1000)
+        return player_data.get("elo", 0)
 
     @staticmethod
     def add_elo(qq: str, elo: int) -> None:
