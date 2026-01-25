@@ -45,7 +45,10 @@ def join_queue(qq: str, queue_type: str = "0", force: bool = False):
         return f"创建游戏中: {current_queue_player}"
 
     position = len(current_queue)
-    return f"玩家 {qq} 加入队列成功！当前位置：{position}"
+
+    response = f"玩家 {qq} 加入队列成功！当前位置：{position}\n"
+    response += get_queue_stats(queue_type)
+    return response
 
 
 def leave_queue(qq: str) -> str:
@@ -142,15 +145,15 @@ def get_queue_stats(queue: str) -> str:
     # 表头宽度
     ign_width = max(max_ign_len, 6) + 2  # "IGN" 长度
     elo_width = max(max_elo_len, 3) + 2  # "elo" 长度
-    wins_width = max(max_wins_len, 2) + 2  # "wins" 长度
-    losses_width = max(max_losses_len, 2) + 2  # "looses" 长度
+    wins_width = max(max_wins_len, 3) + 2  # "wins" 长度
+    losses_width = max(max_losses_len, 4) + 2  # "looses" 长度
     mvps_width = max(max_mvps_len, 4) + 2  # "MVPs" 长度
 
     # 构建表格
     response = f"Queue {queue_name} :\n"
 
     # 表头
-    header = f"{'IGN':<{ign_width}}|{'elo':<{elo_width}}|{'W':<{wins_width}}|{'L':<{losses_width}}|{'MVPs':<{mvps_width}}"
+    header = f"{'IGN':<{ign_width}}|{'elo':<{elo_width}}|{'Win':<{wins_width}}|{'Loss':<{losses_width}}|{'MVPs':<{mvps_width}}"
     response += header + "\n"
     response += "-" * len(header) + "\n"
 
