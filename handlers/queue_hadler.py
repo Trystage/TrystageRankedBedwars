@@ -55,7 +55,7 @@ async def handle_force_join_command(websocket, message_text, user_id, group_id):
     """处理加入queue"""
     parts = message_text.split()
     if len(parts) == 3:
-        qq = extract_qq(parts[1])
+        qq = str(extract_qq(parts[1]))
         queue_name = parts[2]
         if queue_name in ["0", "300", "600"]:
             response_message = join_queue(qq, queue_name, True)
@@ -65,7 +65,7 @@ async def handle_force_join_command(websocket, message_text, user_id, group_id):
             await send_message(websocket, "queue种类需为: 0 300 600", user_id, group_id)
             return
     elif len(parts) == 2:
-        qq = extract_qq(parts[1])
+        qq = str(extract_qq(parts[1]))
         queue_name = EloUtils.get_max_queue(PlayerUtils.get_elo(qq))
         response_message = join_queue(qq, queue_name, True)
         await send_message(websocket, response_message, user_id, group_id)
