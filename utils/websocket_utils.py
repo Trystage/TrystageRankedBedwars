@@ -166,7 +166,7 @@ def extract_qq(input_data):
         # 尝试通过数据获取玩家
         player_info = PlayerUtils.get_player(input_data)
         # 检查是否找到了玩家
-        if player_info and isinstance(player_info, dict) and 'qq' in player_info['qq']:
+        if player_info and isinstance(player_info, dict) and 'qq' in player_info:
             # 返回玩家的QQ号
             return player_info['qq']
 
