@@ -37,17 +37,18 @@ def join_queue(qq: str, queue_type: str = "0", force: bool = False):
 
     current_queue.append(qq)
 
-    if len(current_queue) >= 8:
-        current_queue_player = current_queue[:8]
-
-        #ToDo: start gaming
-
-        return f"创建游戏中: {current_queue_player}"
-
     position = len(current_queue)
     ign = player_data.get("minecraft").get("ign")
     response = f"玩家 {ign} 加入队列成功！\n当前位置：{position}\n"
     response += get_queue_stats(queue_type)
+
+    if len(current_queue) >= 8:
+        current_queue_player = current_queue[:8]
+        del current_queue[:8]
+        #ToDo: start gaming
+
+        response += f"\n创建游戏中: {current_queue_player}"
+
     return response
 
 
