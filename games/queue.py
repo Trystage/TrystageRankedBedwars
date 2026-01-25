@@ -46,7 +46,7 @@ def join_queue(qq: str, queue_type: str = "0", force: bool = False):
 
     position = len(current_queue)
 
-    response = f"玩家 {player_data["minecraft"]["ign"]} 加入队列成功！\n当前位置：{position}\n"
+    response = f"玩家 {player_data.get("minecraft").get("ign")} 加入队列成功！\n当前位置：{position}\n"
     response += get_queue_stats(queue_type)
     return response
 
