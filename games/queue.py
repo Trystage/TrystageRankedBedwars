@@ -77,84 +77,6 @@ def leave_queue(qq: str) -> str:
     return f"玩家 {qq} 不在任何队列中"
 
 
-def get_queue_status(qq: str = None, queue: str = None) -> str:
-    """
-    获取队列状态
-
-    Args:
-        qq: 可选，指定玩家QQ号
-        queue: 可选，指定队列类型 "0", "300", "600"
-
-    Returns:
-        队列状态字符串，格式：qq - ign - elo
-    """
-    # 检查参数
-    if qq is None and queue is None:
-        return "请指定queue类型"
-
-    # 辅助函数：获取玩家信息字符串
-    def get_player_info(player_qq: str) -> str:
-        """获取单个玩家的信息字符串：qq - ign - elo"""
-        player_data = PlayerUtils.get_player_data(player_qq)
-        if not player_data:
-            return f"{player_qq} - 数据缺失 - 数据缺失"
-
-        ign = player_data.get("minecraft", {}).get("ign", "Unknown")
-        elo = player_data.get("elo", -1)
-        return f"{player_qq} - {ign} - {elo}"
-
-    # 情况1：指定queue类型，显示该队列所有玩家
-    if queue is not None:
-        if queue == "0":
-            queue_list = queue0
-            queue_name = "0级队列"
-        elif queue == "300":
-            queue_list = queue300
-            queue_name = "300级队列"
-        elif queue == "600":
-            queue_list = queue600
-            queue_name = "600级队列"
-        else:
-            return f"错误的队列类型: {queue}"
-
-        if not queue_list:
-            return f"{queue_name} 为空"
-
-        response = f"{queue_name} 中的所有玩家：\n"
-        for i, player_qq in enumerate(queue_list, 1):
-            player_info = get_player_info(player_qq)
-            response += f"  {i}. {player_info}\n"
-
-        return response
-
-    # 情况2：指定qq，显示该玩家所在的队列所有玩家
-    if qq is not None:
-        # 查找玩家在哪个队列
-        if qq in queue0:
-            queue_list = queue0
-            queue_name = "0级队列"
-        elif qq in queue300:
-            queue_list = queue300
-            queue_name = "300级队列"
-        elif qq in queue600:
-            queue_list = queue600
-            queue_name = "600级队列"
-        else:
-            return f"请指定queue类型"
-
-        # 显示该队列所有玩家
-        response = f"玩家 {get_player_info(qq)} 所在的 {queue_name}：\n"
-        for i, player_qq in enumerate(queue_list, 1):
-            player_info = get_player_info(player_qq)
-            # 标记当前查询的玩家
-            marker = " <- 您" if player_qq == qq else ""
-            response += f"  {i}. {player_info}{marker}\n"
-
-        return response
-
-    # 不应该执行到这里
-    return "参数错误"
-
 
 def get_queue_stats(queue: str) -> str:
     """
@@ -226,3 +148,13 @@ def get_queue_stats(queue: str) -> str:
         response += row + "\n"
 
     return response
+
+def get_user_queue(qq:str) -> str:
+    if qq in queue0:
+        return "0"
+    elif qq in queue300:
+        return "300"
+    elif qq in queue600:
+        return "600"
+    else:
+        return "None"
