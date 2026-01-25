@@ -142,15 +142,15 @@ def get_queue_stats(queue: str) -> str:
     # 表头宽度
     ign_width = max(max_ign_len, 6) + 2  # "IGN" 长度
     elo_width = max(max_elo_len, 3) + 2  # "elo" 长度
-    wins_width = max(max_wins_len, 4) + 2  # "wins" 长度
-    losses_width = max(max_losses_len, 6) + 2  # "looses" 长度
+    wins_width = max(max_wins_len, 2) + 2  # "wins" 长度
+    losses_width = max(max_losses_len, 2) + 2  # "looses" 长度
     mvps_width = max(max_mvps_len, 4) + 2  # "MVPs" 长度
 
     # 构建表格
     response = f"Queue {queue_name} :\n"
 
     # 表头
-    header = f"{'IGN':<{ign_width}}|{'elo':<{elo_width}}|{'wins':<{wins_width}}|{'looses':<{losses_width}}|{'MVPs':<{mvps_width}}"
+    header = f"{'IGN':<{ign_width}}|{'elo':<{elo_width}}|{'W':<{wins_width}}|{'L':<{losses_width}}|{'MVPs':<{mvps_width}}"
     response += header + "\n"
     response += "-" * len(header) + "\n"
 
