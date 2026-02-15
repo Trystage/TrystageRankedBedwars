@@ -94,7 +94,7 @@ class ImageUtils:
                 if response.status_code == 200:
                     skin_image = Image.open(BytesIO(response.content)).convert("RGBA")
                     # 调整皮肤图片大小
-                    skin_image = skin_image.resize((160, 360), Image.Resampling.LANCZOS)
+                    skin_image = skin_image.resize((224, 362), Image.Resampling.LANCZOS)
             except Exception as e:
                 print(f"获取皮肤图片失败: {e}")
         
