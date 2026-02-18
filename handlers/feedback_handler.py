@@ -20,8 +20,8 @@ def log_feedback_record(user_id, group_id, message):
 async def handle_feedback_command(websocket, message_text, user_id, group_id):
     """处理反馈命令"""
     parts = message_text.split()
-    if len(parts) >= 3:
-        message = " ".join(parts[2:])  # 反馈内容（合并剩余部分）
+    if len(parts) >= 1:
+        message = " ".join(parts[1:])  # 反馈内容（合并剩余部分）
         operator = user_id
         # 记录反馈信息
         log_entry = log_feedback_record(
